@@ -10,15 +10,14 @@ using namespace std;
 //Game interface 
 class Game{
 private:
-	//other member variables:
-	int length; 			//length of the board
-	int width;  			//width of the board
-	int num_arrows; 		//keep track of number of arrows remaining
-	bool debug_view;		//debug mode or not
-	int player_y;
-	int player_x;
-	Room room;
-	vector<vector<Room>> myvect(int, vector<Room>(int, Room()));
+	//Primitives
+	int length, width; 		
+	int num_arrows; 		
+	bool debug_view;		
+	int player_y, player_x;
+	//Special data
+	vector<vector<Room>> myvect;
+	Event* e; 
 	//Wumpus_x
 	//Wumpus_y
 	//Bats_x[2] = {}
@@ -34,36 +33,129 @@ public:
 	//suggested functions:
 	Game();
 	~Game();
-	
+/*********************************************************************
+** Function: set_player_x
+** Description: randomizes the players initial starting position 
+** Parameters: none
+** Pre-Conditions: the player and grid exist
+** Post-Conditions: places the player 
+*********************************************************************/
 	void set_player_x();
+/*********************************************************************
+** Function: set_player_y
+** Description: randomizes the players initial starting position 
+** Parameters: none
+** Pre-Conditions: the player and grid exist
+** Post-Conditions: places the player 
+*********************************************************************/
 	void set_player_y();
-
+/*********************************************************************
+** Function: set_up
+** Description: sets up the size of the grid based on width and length retrieve from user 
+** Parameters: int, int 
+** Pre-Conditions: the player enters the correct data for parameters
+** Post-Conditions: vector exists 
+*******************************s**************************************/
 	void set_up(int length, int width); 
-
-	int randomize_location();
-
-	void display_game() ;
-
+/*********************************************************************
+** Function: set_bats
+** Description: randomizes the bats x and y coordinate
+** Parameters: none
+** Pre-Conditions: bat class is configured
+** Post-Conditions: bats x and y coordinate
+*********************************************************************/
+	void set_bats();
+/*********************************************************************
+** Function: add_bats
+** Description: places both bats in grid 
+** Parameters: none
+** Pre-Conditions: bat class is configured
+** Post-Conditions: places the bat
+*********************************************************************/
+	void add_bats();
+/*********************************************************************
+** Function: percept
+** Description: notifies player that they are near a event
+** Parameters: none
+** Pre-Conditions: Player needs to be next to event. 
+** Events must be configured and pure virtual
+** Post-Conditions: print
+*********************************************************************/
+	void percept();
+/*********************************************************************
+** Function: display_game
+** Description: displays the game to terminal 
+** Parameters: bool debug_mode
+** Pre-Conditions: vector is created 
+** Post-Conditions: prints until user wins/losses
+*********************************************************************/
+	void display_game(bool);
+/*********************************************************************
+** Function: check_win
+** Description: 
+** Parameters: 
+** Pre-Conditions:
+** Post-Conditions:
+*********************************************************************/
 	bool check_win() const;
-
+/*********************************************************************
+** Function: get_dir
+** Description: called when the user choose to shoot an arrow, asks them which direction to shoot
+** Parameters: none
+** Pre-Conditions: must enter correct char
+** Post-Conditions: -1 arrow
+*********************************************************************/
 	char get_dir();
+/*********************************************************************
+** Function:
+** Description: 
+** Parameters: 
+** Pre-Conditions:
+** Post-Conditions:
+*********************************************************************/
 	void wumpus_move();
+/*********************************************************************
+** Function: fire_arrow
+** Description: fires an arrow in the chosen direction 3 spaces
+** Parameters: none
+** Pre-Conditions: arrows > 0
+** Post-Conditions: -1 arrow
+*********************************************************************/
 	void fire_arrow();
-
+/*********************************************************************
+** Function: directional move functions
+** Description: any function can be called based on WASD
+** Parameters: none
+** Pre-Conditions: grid exists and there isnt a wall where they input
+** Post-Conditions: move player
+*********************************************************************/
 	void move_up();
 	void move_down();
 	void move_left();
 	void move_right();
-	// Handle player's action: move or fire an arrow
+/*********************************************************************
+** Function: move
+** Description: handles player's action: move or fire an arrow
+** Parameters: char
+** Pre-Conditions: player and grid exists. User has >0 arrows
+** Post-Conditions: moves player/shoots arrow
+*********************************************************************/
 	void move(char);
-
+/*********************************************************************
+** Function: get_input 
+** Description: gets the input from the user. Either wasd or f
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: returns the users choice as a char
+*********************************************************************/
 	char get_input();
-
+/*********************************************************************
+** Function: play_game
+** Description: contains the loop and all functions for each turn 
+** Parameters: width, length, debug mode
+** Pre-Conditions: grid exists and the game is not over 
+** Post-Conditions: delete memory
+*********************************************************************/
 	void play_game(int, int, bool);
-
-	//void insert_Event(Event* e);
-
-	//feel free (and you will need) to add more functions...
-
 };
 #endif
