@@ -11,41 +11,62 @@ using namespace std;
 //Game Implementation
 
 Game::Game(){
-	//Game constructor
-	//Your code here:
 }
 
 Game::~Game(){
-	//Game destructor
-	//Your code here:
+	
 }
 
-
-void Game::set_up(int l, int w){
-	//set up the game
+void Game::set_up(int w, int l){
 	this->length = l;
 	this->width = w;
-	this->num_arrows = 3; 	//start with 3 arrows
-
-//Maybe need to retweak this vecor, see lecture video
-	vector<vector<Room>> gameboard(this->length, vector<Room>(this->width, Room())); 
-
-	// randomly insert events (2 bats, 2 stalactites, 1 wumpus, 1 gold)
-	// into the board
+	this->num_arrows = 3; 	//start with 3 arrows 
+	myvect.resize(this->length);
+	for (int i = 0; i < this->length; i++)
+		myvect.at(i).resize(this->width);
 }
 
 void Game::set_player_x(){
-	this->player_x = rand()%this->length;
+	this->player_x = rand()%this->width;
 }
 void Game::set_player_y() {
-	this->player_y = rand()%this->width;
-}
+	this->player_y = rand()%this->length;
+} 
+//void Game::set_bats(){
+//	int bat_x, bat_y;
+//	bool check = true;
+//	bat_x = rand()%this->width;
+//	bat_y = rand()%this->length;
+//	while(check == true){
+//		if(myvect[bat_y][bat_x].get_event() != nullptr){
+//			bat_x = rand()%this->width;
+//			bat_y = rand()%this->length;
+//		}
+//		else{
+//			check = false;
+//		}
+//	}
+//	myvect[bat_y][bat_x].set_event(new Bats('B'));
+//}
 
-//Note: you need to modify this function
-void Game::display_game() {
+
+
+//void Game::add_bats(){
+//	for(int i=0;i<2;i++){
+//		set_bats();
+//	}
+//}
+
+//void Game::percept(){
+ //	if(player_x && player_y == bat_x && bat_y){
+ //		cout << e.get_percept();
+//		}
+//}
+
+void Game::display_game(bool d) {
 	cout << endl << endl;
 	cout << "Arrows remaining: " << this->num_arrows << endl;
-
+	cout << this->debug_view << endl;
 	string line = "";
 	for (int i = 0; i < this->width; ++i)
 		line += "-----";
@@ -54,72 +75,38 @@ void Game::display_game() {
 		cout << line << endl;
 		for (int j = 0; j < this->width; ++j)
 		{
-			//The first char indicates whether there is a player in that room or not
-			//if the room does not have the player, print space " "
-
-			//else, print "*"
-
-			//Fix the following
-
+			if (myvect[i][j].check_event()==true){
+			 	cout << myvect[i][j].get_sprite();
+			}
 			if(player_x == j&& player_y == i){
-				cout << "*"; 
-			} else{
+			   cout << "*"; 
+			}else{
 				cout << " ";
 			}
-
-			//The next two chars indicate the event in the room
-			//if the room does not have an event, print "  ||" (2 spaces + ||)
-			
-			//else, 
-				//if debug_view is true
-					//print the corresponding char of the event
-				//else
-					//print " " (1 space)
-				// print " ||" (1 space + ||)
-
-			//Fix the following...
-			cout << "  ||";
+			if(myvect[i][j].get_event() == nullptr){
+				cout << "  ||";
+			}
+			else{
+				//Debug game mode
+				if(this->debug_view == true){
+					cout << myvect[i][j].get_sprite();
+					cout << " ||";
+				//print the corresponding char of the event
+				}
+				//Regular game mode
+				else{
+					if(player_x == j&& player_y == i){
+					cout << "*"; 
+					} else{
+					cout << " ";
+					}
+					cout << " ||";
+				}
+			}
 		}
 		cout << endl;
 	}
 	cout << line << endl;
-
-	//example output (when finished): 
-	// --------------------
-	//  B || G || B ||   ||
-	// --------------------
-	//    || W ||   || S ||
-	// --------------------   
-	//    ||   ||   || S ||
-	// --------------------   
-	// *  ||   ||   ||   ||
-	// --------------------
-
-
-
-
-
-
-
-
-
-//this->insert_event(new bats)
-//this->insert_event(new bats);
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 bool Game::check_win() const{
@@ -149,22 +136,27 @@ void Game::move_right() {
 }
 
 char Game::get_dir(){
-	//get direction of arrow:
-	char dir;
-	//Note: error checking is needed!! 
-	//Your code here:
-	cout << "Where will you shoot this arrow?" << endl;
-	cout << "w-up" << endl;
-	cout << "a-left" << endl;
-	cout << "s-down" << endl;
-	cout << "d-right" << endl;
+    char dir;
 
+    cout << "Where will you shoot this arrow?" << endl;
+    cout << "w-up" << endl;
+    cout << "a-left" << endl;
+    cout << "s-down" << endl;
+    cout << "d-right" << endl;
+    cout << "Enter direction: " << endl;
 
-	cout << "Enter direction: " << endl;
-	cin >> dir;
-	cin.ignore(256, '\n');
+    cin >> dir;
+    cin.ignore(256, '\n');
 
-	return dir;
+    // Use && instead of ||
+    if (dir != 'w' && dir != 'a' && dir != 's' && dir != 'd') {
+        do {
+            cout << "Not a valid input, Try again :"; 
+            cin >> dir;
+            cin.ignore(256, '\n');
+        } while (dir != 'w' && dir != 'a' && dir != 's' && dir != 'd');
+    }
+    return dir;
 }
 
 void Game::wumpus_move(){
@@ -182,19 +174,17 @@ void Game::wumpus_move(){
 void Game::fire_arrow(){
 
 	//NOTE::IF ARROW HITS WUMPUS NOT IMPLEMENTED 
-	//////////////////////////////////////////////////////
-	//Needs to subtract 1 arrow if shot
-	//////////////////////////////////////////////////////
+
 	char dir = get_dir();
 	int arrow_y = this->player_y;
 	int arrow_x = this->player_x;
 	if(dir=='w'){
 		num_arrows -= 1;
-		for(int i = 0;i<3;i++){
-			arrow_x+=1;
-			if(arrow_x == 0){
+		for(int i=0;i<3;i++){
+			arrow_y-=1;
+			if(arrow_y+1 == 0){
 		 		cout << "\nYour arrow hit a wall" << endl;
-		 		return;
+		 		i=3;
 			}
 			//IF ARROW HITS WUMPUS
 		}
@@ -202,7 +192,8 @@ void Game::fire_arrow(){
 	else if(dir=='s'){
 		num_arrows -= 1;
 		for(int i = 0;i<3;i++){
-			if(arrow_x == width-1){
+			arrow_y+=1;
+			if(arrow_y == length-1){
 		 		cout << "\nYour arrow hit a wall" << endl;
 		 	}
 		 	//IF ARROW HITS WUMPUS
@@ -211,7 +202,8 @@ void Game::fire_arrow(){
 	else if(dir=='a'){
 		num_arrows -= 1;
 		for(int i = 0;i < 3;i++){
-			if(arrow_x == 0){
+			arrow_x-=1;
+			if(arrow_x+1 == 0){
 		 		cout << "\nYour arrow hit a wall" << endl;
 		 	}
 		 	//IF ARROW HITS WUMPUS
@@ -220,7 +212,8 @@ void Game::fire_arrow(){
 	else if(dir == 'd'){
 		num_arrows -= 1;
 		for(int i = 0;i < 3;i++){
-			if(arrow_x == length-1){
+			arrow_x+=1;
+			if(arrow_x == width-1){
 				cout << "\nYour arrow hit a wall " << endl;
 			}
 			//IF ARROW HITS WUMPUS
@@ -246,14 +239,14 @@ void Game::move(char c) {
 			Game::move_left();}
 			break;
 		case 's':
-			if(player_y==width-1){
+			if(player_y==length-1){
 					cout << "\n*There is a wall here\n" << "**Try moving somewhere else" << endl;
 			}
 			else{
 			Game::move_down();}
 			break;
 		case 'd':
-			if(player_x == length-1){
+			if(player_x == width-1){
 					cout << "\n*There is a wall here\n" << "**Try moving somewhere else" << endl;
 			}
 			else{
@@ -292,21 +285,23 @@ char Game::get_input(){
 	return c;
 }
 
+
 //Note: you need to modify this function
 void Game::play_game(int w, int l, bool d){
-
 
 	Game::set_up(w, l);
 	this->debug_view = d;
 	char input;
 	set_player_x();
 	set_player_y();
+	add_bats();
 	//int escaperope[2] = {set_player_x, set_player_y}; //const
 
 	while (Game::check_win() == false){
 		//print game board
-		Game::display_game();
-
+		cout << player_x<< endl;
+		cout << player_y<< endl;
+		Game::display_game(this->debug_view);
 		//display percerts around player's location
 		//Your code here:
 
@@ -318,25 +313,10 @@ void Game::play_game(int w, int l, bool d){
 		Game::move(input);
 
 		//3. may or may not encounter events
-		//Your code here:
-
+		//Percept
+		// Game::percept();
+		//Action
 	}
 	return;
 }
-
-
-
-// void Game::insert_Event(Event* e){
-// 	do{
-// 		//Choose a random row 
-// 		int row_idx = rand() % grid.size(); 
-// 		//Choose a random collum
-// 		int col_idx = rand() % (grid.at(0).size()); 
-// 	}while(grid.at(row_idx).at(col_idx).get_event() != nullptr);
-
-// 	//Place the event
-
-// 	grid.at(row_idx).at(col_idx).set_event(e);
-
-
 
