@@ -5,7 +5,11 @@
 using namespace std;
 
 class Armor : public Event{
-public:
-	Armor(char e);
-	void action() override;
-}
+	public:
+		bool power = true; 
+		Armor(char A, string percpt);
+		char get_sprite();
+		string get_percept();
+		// void action() override;
+};
+#endif
