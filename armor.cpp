@@ -3,11 +3,17 @@
 
 using namespace std;
 
-Armor::Armor(char e)
-	: Event(e){
-		cout << "Default Armor Constructor!"; //Delete this later
+Armor::Armor(char A, string percpt)
+	: Event(A, percpt){
 	}
-void Armor::action(){
-	cout << "The Power\n";
+
+char Armor::get_sprite(){
+	return sprite;
 }
-//x
+string Armor::get_percept(){
+	return percept;
+}
+// void Armor::action(){
+// 	cout << "The Power\n";
+// }
+//
