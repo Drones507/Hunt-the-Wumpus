@@ -127,8 +127,8 @@ int main()
 
 
 //NOTES::
-//Current Step : Implement arrow shooting funcitonality correctly
-//Next step : Implement virtual event. Implement version 1 events 
-//Next step : Debug, and add each event one by one
+//Current Step : Implement Action Functons 
+//Next Step : Improve the functionality of events when >1
+
 
 
