@@ -7,8 +7,7 @@ using namespace std;
 class Bats : public Event{
 	public:
 		bool confused = false; 
-		Bats(char B);
-		void action() override;
+		Bats(char B, string percpt);
 		char get_sprite();
 		string get_percept();
 };
