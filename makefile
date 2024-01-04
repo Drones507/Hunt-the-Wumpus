@@ -3,7 +3,7 @@ exe=hunt
 
 all: $(exe)
 
-$(exe): main.o game.o room.o event.o bats.o stalactites.o gold.o wumpus.o
+$(exe): main.o game.o room.o event.o armor.o bats.o stalactites.o gold.o wumpus.o
 	$(CC) $^ -o $(exe)
 
 main.o: main.cpp
@@ -17,6 +17,9 @@ room.o: room.cpp room.h
 
 event.o: event.cpp event.h
 	$(CC) -c event.cpp
+
+armor.o: armor.cpp armor.h
+	$(CC) -c armor.cpp
 
 bats.o: bats.cpp bats.h
 	$(CC) -c bats.cpp
