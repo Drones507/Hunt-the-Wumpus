@@ -2,10 +2,15 @@
 #define WUMPUS_H 
 
 #include "event.h"
+using namespace std;
 
-//Wumpus Interface
 class Wumpus : public Event{
-private: 
 public:
+	bool confused = false; 
+	Wumpus(char W, string percpt); 
+	char get_sprite();
+	string get_percept();
+	// void action();
+	
 };
 #endif
