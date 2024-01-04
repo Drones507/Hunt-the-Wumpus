@@ -1,9 +1,11 @@
 #include "event.h"
 
 using namespace std;
+//Event Big3 Implementation
+
 //Default Constructor
-Event::Event(char e)
-	: sprite(e){
+Event::Event(char e, string p)
+	: sprite(e), percept(p){
 }
 void Event::set_sprite(char e){
 	sprite = e;
@@ -16,8 +18,4 @@ char Event::get_sprite(){
 }
 string Event::get_percept(){
 	return percept;
-}
-
-void action(){
-	return;
 }
