@@ -15,21 +15,15 @@ private:
 	int num_arrows; 		
 	bool debug_view;		
 	int player_y, player_x;
+	int gold_x, gold_y;
+	int stal_x, stal_y;
+	int bat_x, bat_y;
+	int armor_x, armor_y;
+	int wumpus_x, wumpus_y;
 	//Special data
 	vector<vector<Room>> myvect;
 	Event* e; 
-	//Wumpus_x
-	//Wumpus_y
-	//Bats_x[2] = {}
-	//Bats_y[2] = {}
-	//Gold_x
-	//Gold_y
-	//Stalactite_x[2] = {}
-	//Stalactite_y[2] = {}
-	//feel free to add more variables...
-
 public:
-
 	//suggested functions:
 	Game();
 	~Game();
@@ -65,6 +59,10 @@ public:
 ** Post-Conditions: bats x and y coordinate
 *********************************************************************/
 	void set_bats();
+	void set_stalactites();
+	void set_armor();
+	void set_gold();
+	void set_wumpus();
 /*********************************************************************
 ** Function: add_bats
 ** Description: places both bats in grid 
@@ -73,6 +71,8 @@ public:
 ** Post-Conditions: places the bat
 *********************************************************************/
 	void add_bats();
+	void add_stalactites();
+	void place_events();
 /*********************************************************************
 ** Function: percept
 ** Description: notifies player that they are near a event
@@ -81,7 +81,11 @@ public:
 ** Events must be configured and pure virtual
 ** Post-Conditions: print
 *********************************************************************/
-	void percept();
+	void armor_percept();
+	void bat_percept();
+	void gold_percept();
+	void stal_percept();
+	void wumpus_percept();
 /*********************************************************************
 ** Function: display_game
 ** Description: displays the game to terminal 
