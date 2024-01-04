@@ -15,12 +15,13 @@ protected:
 public:
 /*********************************************************************
 ** Function: Event non-defualt constructor 
-** Description: Constructs all Event class variables for every member class 
+** Description: Constructs all Event class 
+variables for every member class 
 ** Parameters: char
 ** Pre-Conditions: none  
 ** Post-Conditions: none
 *********************************************************************/
-	Event(char sprite);
+	Event(char sprite, string percept);
 /*********************************************************************
 ** Function: set_sprite
 ** Description: 
@@ -54,6 +55,6 @@ public:
 *********************************************************************/
 	virtual string get_percept() = 0;
 	//Polymorphic Function 
-	virtual void action() = 0;
+	// virtual void action() = 0;
 };
 #endif
