@@ -2,10 +2,15 @@
 #define STALACTITES_H 
 
 #include "event.h"
+using namespace std;
 
-//Stalactites Interface
 class Stalactites : public Event{
-private:
 public:
+	bool falling = false;
+	Stalactites(char S, string percpt);
+	char get_sprite(); 
+	string get_percept();
+	// void action() override; 
+	
 };
 #endif
