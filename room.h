@@ -1,39 +1,67 @@
-#include "room.h"
+#ifndef ROOM_H
+#define ROOM_H 
+
+#include "event.h"
 
 using namespace std;
-Room::Room(){
-	this->e = nullptr;
-}
-Room::~Room(){
-	if(this->e != nullptr){
-		delete this->e;
-	}
-}
-//CC
-Room::Room(Event* new_event){
-	this->e == new_event;
-}
-//AOO
-//implement...
-void Room::set_event(Event* new_event){
-	if(this->e != nullptr){
-		delete this->e;
-	}
-	this->e = new_event;
-}
-Event* Room::get_event(){
-	return this->e;
-}
-char Room::get_sprite(){
-	return e->get_sprite();
-}
-bool Room::check_event(){
-	if(this->e == nullptr){
-		cout << "There is no event";
-		return false;
-	}
-	else{
-	return true;
-	cout << "This room has an event";
-}
-}
+class Room
+{
+private: 
+	Event *e;
+	//EX: If the player gets the gold, it needs to despawn which I can do by setting the pointer to null
+public:
+/*********************************************************************
+** Function: Default Constructor 
+** Description: initializes pointer to nullptr
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: none
+*********************************************************************/
+	Room();
+/*********************************************************************
+** Function: Destructor 
+** Description: If the pointer points to memory, delete pointer memory pointed to
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: none
+*********************************************************************/
+	~Room();
+	Room(Event *new_event); 
+/*********************************************************************
+** Function: set_event 
+** Description: sets a new event to a room if a event does not 
+** already exist in that room. if it does delete...
+** Parameters: none
+** Pre-Conditions: none
+** Post-Conditions: none
+*********************************************************************/
+	void set_event(Event *new_event);
+/*********************************************************************
+** Function: get_event
+** Description: gets pointed to event and passes as const
+** Parameters: none 
+** Pre-Conditions: none 
+** Post-Conditions: none 
+*********************************************************************/
+	Event* get_event();
+/*********************************************************************
+** Function: get_sprite 
+** Description: passes event sprite (char)
+** Parameters: none 
+** Pre-Conditions: none
+** Post-Conditions: none
+*********************************************************************/
+	char get_char();
+	string get_string();
+/*********************************************************************
+** Function: check_event
+** Description: only a debugger, checks if there is an event in the room, returns bool
+** Parameters: none 
+** Pre-Conditions: none
+** Post-Conditions: none
+*********************************************************************/	
+	bool check_event();
+
+};
+
+#endif
