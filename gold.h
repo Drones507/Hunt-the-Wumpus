@@ -2,13 +2,13 @@
 #define GOLD_H 
 
 #include "event.h"
+using namespace std;
 
-//Gold Interface
 class Gold : public Event{
-	private: 
-
-	public:
+	public: 
+		bool hasgold = false;
+		Gold(char G, string percpt);
+		char get_sprite();
+		string get_percept();
 };
-
-
 #endif
